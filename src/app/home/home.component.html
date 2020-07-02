@@ -1,0 +1,79 @@
+<h1>HOME</h1>
+
+    <div class="form-container">
+        <mat-form-field appearance="outline">
+            <input matInput placeholder="Team name" (keyup)="filterName($event.target.value)" >
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Season from</mat-label>
+            <input matInput [matDatepicker]="start_dp" [formControl]="dateStart">
+            <mat-datepicker-toggle matSuffix [for]="start_dp"></mat-datepicker-toggle>
+            <mat-datepicker #start_dp
+                            startView="multi-year"
+                            (yearSelected)="chosenStartYearHandler($event,start_dp)"
+                        
+                            panelClass="example-month-picker">
+            </mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label> Season to</mat-label>
+            <input matInput [matDatepicker]="end_dp" [formControl]="dateEnd">
+            <mat-datepicker-toggle matSuffix [for]="end_dp"></mat-datepicker-toggle>
+            <mat-datepicker #end_dp
+                            [startAt]=""
+                            startView="multi-year"
+                            (yearSelected)="chosenEndYearHandler($event,end_dp)"
+                        
+                            panelClass="example-month-picker">
+            </mat-datepicker>
+        </mat-form-field>
+    </div>
+
+    
+    
+        <table mat-table [dataSource]="games" matSort class="mat-elevation-z8" >
+            <ng-container matColumnDef="season">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Season </th>
+                <td mat-cell *matCellDef="let game"> {{game.season}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="opponent_team">
+                <th mat-header-cell *matHeaderCellDef  mat-sort-header> Opponent team  </th>
+                <td mat-cell *matCellDef="let game"> {{ game.visitor_team.id == team.id ? game.home_team.full_name : game.visitor_team.full_name  }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="result">
+                <th mat-header-cell mat-sort-header  *matHeaderCellDef> result  </th>
+                <td mat-cell *matCellDef="let game"> 
+                    {{
+                    game.home_team_score > game.visitor_team_score  
+                    ? game.visitor_team.id == team.id ? "L":'W'
+                    : game.visitor_team.id == team.id ? "W":'L'
+                    }}
+                </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="selected_team_score">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef> Selected team score </th>
+                <td mat-cell *matCellDef="let game"> {{ game.visitor_team.id == team.id ? game.visitor_team_score : game.home_team_score }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="opponent_team_score">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef> oponent team score  </th>
+                <td mat-cell *matCellDef="let game"> {{ game.visitor_team.id == team.id ? game.home_team_score : game.visitor_team_score }} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="date">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef> date  </th>
+                <td mat-cell *matCellDef="let game"> {{game.date| date}} </td>
+            </ng-container>
+            
+            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+            <tr mat-row *matRowDef="let game; columns: columnsToDisplay"></tr>
+
+        
+        </table>
+        <mat-paginator [length]="100" [pageSizeOptions]="[25]" showFirstLastButtons></mat-paginator>
+ 

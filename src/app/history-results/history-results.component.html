@@ -1,0 +1,46 @@
+<div>
+    <form class="example-form">
+      <div class="example-form-con">
+        <mat-form-field  appearance="outline" class="example-full-width">
+          <input type="text"
+                 placeholder="Pick the team"
+                 aria-label="Number"
+                 matInput
+                 [formControl]="myControl"
+                 [matAutocomplete]="auto"
+                 [(ngModel)]="selectedTeam"
+                 >
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option" (click)="onTeamSelected(selectedTeam)">
+              {{option.full_name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field  appearance="outline">
+            <mat-label>Season from</mat-label>
+            <input matInput [matDatepicker]="start_dp" [formControl]="dateStart">
+            <mat-datepicker-toggle matSuffix [for]="start_dp"></mat-datepicker-toggle>
+            <mat-datepicker #start_dp
+                            startView="multi-year"
+                            (yearSelected)="chosenStartYearHandler($event,start_dp)"
+                        
+                            panelClass="example-month-picker">
+            </mat-datepicker>
+        </mat-form-field>
+        
+        <mat-form-field  appearance="outline">
+            <mat-label> Season to</mat-label>
+            <input matInput [matDatepicker]="end_dp" [formControl]="dateEnd">
+            <mat-datepicker-toggle matSuffix [for]="end_dp"></mat-datepicker-toggle>
+            <mat-datepicker #end_dp
+                            [startAt]=""
+                            startView="multi-year"
+                            (yearSelected)="chosenEndYearHandler($event,end_dp)"
+                        
+                            panelClass="example-month-picker">
+            </mat-datepicker>
+        </mat-form-field>
+      </div>
+      </form>
+</div>
+<div>
