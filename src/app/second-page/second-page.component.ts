@@ -9,7 +9,12 @@ interface Provider {
 }
 
 interface Game {
-  date:any
+  date:any,
+  home_team_score:number,
+  home_team:{
+    id:number
+  },
+  visitor_team_score
 }
 
 @Component({
@@ -90,11 +95,11 @@ export class SecondPageComponent implements OnInit {
     });
   }
   getGamesByTeam(){
-    
+    this.gamesDates = [];
     this.data.getGamesByTeamIdAndSeasons( this.team.id, this.seasonFrom, this.seasonTo ).subscribe( (data:Provider) =>{
-      let allDates = data.data.map( res => res.date )
+      let allDates = data.data.map( ( res:Game) => res.date )
       
-      this.pointScored = data.data.map( res => {
+      this.pointScored = data.data.map( (res:Game) => {
         if(res.home_team.id === this.team.id){
             return res.home_team_score;
         }else{
@@ -102,7 +107,7 @@ export class SecondPageComponent implements OnInit {
         }
       });
 
-      this.pointConceded = data.data.map( res => {
+      this.pointConceded = data.data.map( (res:Game) => {
         if(res.home_team.id === this.team.id){
             return res.visitor_team_score;
         }else{

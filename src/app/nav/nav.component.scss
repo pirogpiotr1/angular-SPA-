@@ -40,6 +40,9 @@ header{
                &:hover{
                 background: rgba(0,0,0,0.3);
                }
+               &.is-active{
+                background: rgba(0,0,0,0.3);
+               }
             }
         }
      

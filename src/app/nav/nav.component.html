@@ -3,8 +3,10 @@
         <a routerLink = "/" class="logo">{{ appTitle }}</a>
         <nav>
             <ul>
-                <li><a routerLink="/">front page</a></li>
-                <li><a routerLink="second">second page</a></li>
+                <li><a routerLink="/" [routerLinkActive]="['is-active']" [routerLinkActiveOptions]="{exact:
+                    true}" >front page</a></li>
+                <li><a routerLink="second" [routerLinkActive]="['is-active']" [routerLinkActiveOptions]="{exact:
+                    true}">second page</a></li>
             </ul>
         </nav>
     </div>
